@@ -1,0 +1,27 @@
+[Unit]
+Description=Workzilla freelancer-task monitor → Telegram
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=wz
+Group=wz
+WorkingDirectory=/opt/wz-monitor
+EnvironmentFile=/opt/wz-monitor/.env
+ExecStart=/usr/bin/node /opt/wz-monitor/src/index.js
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+# Hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/wz-monitor
+StateDirectory=wz-monitor
+
+[Install]
+WantedBy=multi-user.target
